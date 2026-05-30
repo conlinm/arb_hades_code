@@ -16,6 +16,9 @@ library(dplyr)
 # create the database connection details
 absoluteFilePath <- file.path(getwd(), "data", "synthetic.duckdb")
 
+## filepath for the non VA version
+absoluteFilePath <- "/Users/michaelconlin/synthetic_OMOP_data/duckdb_data/synthetic.duckdb"
+
 ########## Change for VA version ##############
 connectionDetails <- createConnectionDetails(
         dbms = "duckdb",
