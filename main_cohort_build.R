@@ -39,19 +39,25 @@ print(tableNames)
 #
 # build the cohorts
 # load up the jsonToCapr function (already done)
-# source("/Users/michaelconlin/hades/jsonToCapr.R", echo = FALSE)
+# source("/Users/michaelconlin/arb_hades_code/jsonToCapr.R", echo = FALSE)
 
-# source("/Users/michaelconlin/hades/jsonToCapr_cohort_build.r", echo = TRUE)
+# source("/Users/michaelconlin/arb_hades_code/jsonToCapr_cohort_build.r", echo = TRUE)
 
 # Now source the R scripts to build the cohorts
 # ARBS cohort
-source("/Users/michaelconlin/hades/cohort_build_arbs.r", echo = TRUE)
+source("/Users/michaelconlin/arb_hades_code/cohort_build_arbs.r", echo = TRUE)
 
 # ARBS control cohort
-source("/Users/michaelconlin/hades/cohort_build_arbs_control.r", echo = TRUE)
+source(
+        "/Users/michaelconlin/arb_hades_code/cohort_build_arbs_control.r",
+        echo = TRUE
+)
 
 # ARBS outcome cohort
-source("/Users/michaelconlin/hades/cohort_build_arbs_outcome.r", echo = TRUE)
+source(
+        "/Users/michaelconlin/arb_hades_code/cohort_build_arbs_outcome.r",
+        echo = TRUE
+)
 
 # use makeCohortSet (from Capr) to create the cohort definition set
 # VA version
@@ -94,5 +100,12 @@ cohortCounts <- CohortGenerator::getCohortCounts(
         ) |>
         arrange(cohortId)
 
-##### side issue only for use with the duckdb data
-# there wer
+##### test the cohort generation with just the outcome cohort, to make sure it works before trying to generate all three cohorts together #####
+
+cohortsGenerated <- CohortGenerator::generateCohortSet(
+        connectionDetails = connectionDetails,
+        cdmDatabaseSchema = cdmDatabaseSchema,
+        cohortDatabaseSchema = cohortDatabaseSchema,
+        cohortTableNames = cohortTableNames,
+        cohortDefinitionSet = cohortsToCreate %>% filter(cohortId == 3)
+)
