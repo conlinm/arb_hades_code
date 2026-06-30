@@ -47,7 +47,7 @@ csRenalCellCarcinoma <- cs(
 # create the attrition object to pass to the cohort function
 attritionObj <- attrition(
   expressionLimit = "First", # limit the entry events to the first per person
-  "Age > 18" = withAll(age(gt(18L))), # include only those over 18 years old at the time of cohort entry
+  # "Age > 18" = withAll(age(gt(18L))), # include only those over 18 years old at the time of cohort entry
   "No prior RCCa" = withAll(exactly(
     0L,
     conditionOccurrence(csRenalCellCarcinoma), # exclude those with prior renal cell carcinoma
@@ -89,7 +89,7 @@ attritionObj <- attrition(
 # --- cohort ---
 cohortDef <- cohort(
   entry = entry(
-    drugEra(csArbs, eraLength(gt(60L))),
+    drugEra(csArbs), # eraLength(gt(60L))),
     observationWindow = continuousObservation(priorDays = 365L, postDays = 0L),
     primaryCriteriaLimit = "First",
     qualifiedLimit = "First"
@@ -97,6 +97,6 @@ cohortDef <- cohort(
   attrition = attritionObj,
   exit = exit(
     endStrategy = observationExit()
-  ),
-  era = era(eraDays = 0L)
+  ) #,
+  #era = era(eraDays = 0L)
 )
